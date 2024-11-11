@@ -1,0 +1,30 @@
+-- Tabela de usuários
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    endereco TEXT,
+    telefone TEXT,
+    inadimplente BOOLEAN DEFAULT FALSE
+);
+
+-- Tabela de livros
+CREATE TABLE IF NOT EXISTS livros (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    autor TEXT,
+    editora TEXT,
+    anoPublicacao INTEGER,
+    quantidadeDisponivel INTEGER NOT NULL
+);
+
+-- Tabela de empréstimos
+CREATE TABLE IF NOT EXISTS emprestimos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_id INTEGER,
+    livro_id INTEGER,
+    dataEmprestimo TEXT,
+    dataDevolucao TEXT,
+    status TEXT CHECK( status IN ('ativo', 'atrasado', 'devolvido') ) DEFAULT 'ativo',
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (livro_id) REFERENCES livros(id)
+);
